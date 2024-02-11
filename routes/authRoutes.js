@@ -7,6 +7,8 @@ router.post("/register", registerController);
 
 // LOGIN --POST
 
-router.post("/login", loginController)
+router.post("/login", loginController);
+
+
 
 module.exports = router;

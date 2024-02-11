@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 // Define your MongoDB connection string
 const MONGO_URL = "mongodb+srv://suryanshsinha30:Bibhasinha@cluster0.rqxp410.mongodb.net/food-app";
 
+
 // Connect to MongoDB
 const connectDb = async () => {
     try {
