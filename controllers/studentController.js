@@ -1,8 +1,9 @@
 const { response } = require("express");
 const studentModel = require("../models/studentModel");
 const AuthModel = require("../models/AuthModel");
-const LoginModel = require("../models/LoginModel");
+// const LoginModel = require("../models/LoginModel");
 const bcrypt = require("bcryptjs");
+const jwt = require('jsonwebtoken');
 const createStudentController = async (req, res) => {
   try {
     const {
@@ -388,6 +389,45 @@ const changePasswordController = async (req, res) => {
   }
 };
 
+// const changePasswordController = async (req, res) => {
+//   try {
+//     const { id, oldPassword, newPassword } = req.body;
+    
+//     // Assuming AuthModel is a Mongoose model
+//     const user = await AuthModel.findById(id);
+
+//     if (!user) {
+//       return res.status(404).send({
+//         success: false,
+//         message: "User Not Found",
+//       });
+//     }
+
+//     // Check if old password matches (assuming user.password is hashed)
+//     const isPasswordValid = await user.comparePassword(oldPassword);
+//     if (!isPasswordValid) {
+//       return res.status(400).send({
+//         success: false,
+//         message: "Invalid old password",
+//       });
+//     }
+
+//     // Update user's password
+//     user.password = newPassword;
+//     await user.save();
+
+//     return res.status(200).send({
+//       success: true,
+//       message: "Password Updated",
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).send({
+//       success: false,
+//       message: "Error while changing password",
+//     });
+//   }
+// };
 
 
 const studentSignUpController = async (req, res) => {
@@ -445,26 +485,25 @@ const studentLoginInController = async (req, res) => {
         message: "Email not registered. Please sign up",
       });
     }
-    // const isMatch = await bcrypt.compare(password, user.password);
-    // if (!isMatch) {
-    //   res.status(500).send({
-    //     success: false,
-    //     message: "Invalid Password",
-    //   });
-    // }
-    // const JWT_SECRET ="DATA"
-    // const token = JWT.sign({id: user._id}, JWT_SECRET,{
-    //     expiresIn:"7d",
-    // })
-    if (user) {
-      // const user = await LoginModel.create({
-      //   email,
-      //   password,
-      // });
-      res.status(200).send({
-        success: true,
-        message: "Login Suuccessfully",
-        user,
+    if (password !== user.password) {
+      return res.status(401).send({
+        success: false,
+        message: "Invalid password",
+      });
+    }
+    const JWT_SECRET ="Suryansh"
+    const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
+    if(user){
+      const userData ={
+        email : user.email,
+        id:user._id,
+        userName : user.userName ,
+        password:user.password
+      }
+      return res.status(201).send({ 
+        id: user._id,
+        user: userData,
+        token:token
       });
     }
   } catch (error) {
