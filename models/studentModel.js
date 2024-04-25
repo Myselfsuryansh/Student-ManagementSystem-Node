@@ -35,9 +35,17 @@ const studentSchema = new mongoose.Schema(
     empStatus: {
       type: Boolean,
     },
+    isClockedIn: { 
+      type: Boolean, default: false
+     },
+    clockInTime: { 
+      type: Date
+     },
   },
 
   { timestamps: true }
 );
 
 module.exports = mongoose.model("StudentCrud", studentSchema);
+
+

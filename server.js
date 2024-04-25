@@ -24,6 +24,7 @@ app.use("/api/v1/restaurant", require("./routes/restaurantRoutes"));
 app.use("/api/v1/category", require("./routes/categoryRoutes"));
 app.use("/api/v1/student", require("./routes/studentRoute"));
 app.use("/api/v1/Auth", require("./routes/AuthRoute"));
+app.use("/api/v1/Bank", require("./routes/bankRoutes"));
 // route
 app.get("/", (req, res) => {
   return res.status(200).send("Hello World");

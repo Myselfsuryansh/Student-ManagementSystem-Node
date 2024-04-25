@@ -257,6 +257,8 @@ const updateStudentController = async (req, res) => {
   }
 };
 
+
+
 const deleteStuentController = async (req, res) => {
   try {
     const deleteStudent = await studentModel.findByIdAndDelete(req.params.id);
@@ -282,71 +284,7 @@ const deleteStuentController = async (req, res) => {
   }
 };
 
-// const changePasswordController = async(req, res) =>{
 
-//   try {
-//     const user = await LoginModel.findById({ _id: req.body.id });
-//     if (!user) {
-//       return res.status(404).send({
-//         success: false,
-//         message: "User Not Found",
-//       });
-//     }
-   
-//   }
-//   catch(error){
-//     console.log(error);
-//     return res.status(500).send({
-//       success: false,
-//       message: "Error while changing password",
-//     })
-//   }
-
-// }
-
-// const changePasswordController = async(req, res) => {
-//   try {
-//     const { id, oldPassword, newPassword } = req.body;
-
-//     const user = await LoginModel.findById(id);
-
-//     if (!user) {
-//       return res.status(404).send({
-//         success: false,
-//         message: "User Not Found",
-//       });
-//     }
-
-    
-//     const isMatch = await bcrypt.compare(oldPassword, user.password);
-
-//     if (!isMatch) {
-//       return res.status(400).send({
-//         success: false,
-//         message: "Invalid old password",
-//       });
-//     }
-
-   
-//     const salt = bcrypt.genSaltSync(10);
-//     const hashedPassword = await bcrypt.hash(newPassword, salt);
-
-   
-//     user.password = hashedPassword;
-//     await user.save();
-
-//     return res.status(200).send({
-//       success: true,
-//       message: "Password Updated",
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(500).send({
-//       success: false,
-//       message: "Error while changing password",
-//     });
-//   }
-// }
 
 const changePasswordController = async (req, res) => {
   try {
@@ -389,46 +327,44 @@ const changePasswordController = async (req, res) => {
   }
 };
 
-// const changePasswordController = async (req, res) => {
-//   try {
-//     const { id, oldPassword, newPassword } = req.body;
-    
-//     // Assuming AuthModel is a Mongoose model
-//     const user = await AuthModel.findById(id);
 
-//     if (!user) {
-//       return res.status(404).send({
-//         success: false,
-//         message: "User Not Found",
-//       });
-//     }
+const resetPasswordController = async (req, res) => {
+  try {
+    const {  newPassword, confirmNewPassword } = req.body;
 
-//     // Check if old password matches (assuming user.password is hashed)
-//     const isPasswordValid = await user.comparePassword(oldPassword);
-//     if (!isPasswordValid) {
-//       return res.status(400).send({
-//         success: false,
-//         message: "Invalid old password",
-//       });
-//     }
+    if (newPassword !== confirmNewPassword) {
+      return res.status(400).json({ success: false, message: 'New password and confirm password do not match' });
+    }
 
-//     // Update user's password
-//     user.password = newPassword;
-//     await user.save();
+    const user = await AuthModel.findOne()
+    console.log("user",user)
 
-//     return res.status(200).send({
-//       success: true,
-//       message: "Password Updated",
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(500).send({
-//       success: false,
-//       message: "Error while changing password",
-//     });
-//   }
-// };
 
+    if (!user) {
+      return res.status(404).send({
+        success: false,
+        message: "User Not Found",
+      });
+    }
+
+   
+
+    // Update user's password
+    user.password = newPassword;
+    await user.save();
+
+    return res.status(200).send({
+      success: true,
+      message: "Password Updated",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      success: false,
+      message: "Error while changing password",
+    });
+  }
+};
 
 const studentSignUpController = async (req, res) => {
   try {
@@ -551,6 +487,87 @@ const getUserIdByEmailController = async(req, res) =>{
 
 }
 
+const clockInController = async(req, res)=>{
+  try{
+    const { id} = req.body;
+    console.log(id)
+
+    const user = await studentModel.findById(id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+    if (user.isClockedIn) {
+      return res.status(400).json({ success: false, message: 'User is already clocked in' });
+    }
+    user.isClockedIn = true;
+    user.clockInTime = new Date();
+    await user.save();
+    res.status(200).send({
+      success: true,
+      message: user.isClockedIn ? 'User clocked In successfully' : 'User is already clocked in',
+      data:user
+    })
+  }
+  catch(error){
+    console.error('Error clocking in user:', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+}
+
+ 
+const clockOutController = async(req, res)=>{
+  try{
+    const { id} = req.body;
+    console.log(id)
+
+    const user = await studentModel.findById(id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+    if (!user.isClockedIn) {
+      return res.status(400).json({ success: false, message: 'User is already clocked out' });
+    }
+    user.isClockedIn = false;
+    user.clockOutTime = new Date();
+    await user.save();
+    res.status(200).send({
+      success: true,
+      message: user.isClockedIn ? 'User is already clocked in' : 'User clocked out successfully',
+      data:user
+    })
+  }
+  catch(error){
+    console.error('Error clocking in user:', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+}
+
+const takeBreakController = async(req, res)=>{
+  try{
+    const { id} = req.body;
+    console.log(id)
+
+    const user = await studentModel.findById(id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+    if (user.isOnBreak) {
+      return res.status(400).json({ success: false, message: 'User is already on Break' });
+    }
+    user.isOnBreak = false;
+    user.clockInTime = new Date();
+    await user.save();
+    res.status(200).send({
+      succes: true,
+      message:'User Started Break successfully',
+      data:user
+    })
+  }
+  catch(error){
+    console.error('Error clocking in user:', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+}
 module.exports = {
   createStudentController,
   getAllStudentController,
@@ -560,5 +577,9 @@ module.exports = {
   studentSignUpController,
   studentLoginInController,
   changePasswordController,
-  getUserIdByEmailController
+  getUserIdByEmailController,
+  resetPasswordController,
+  clockInController,
+  clockOutController,
+  takeBreakController
 };
