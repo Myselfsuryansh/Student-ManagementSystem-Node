@@ -1,10 +1,9 @@
 const userModel = require("../models/userModel");
 const bcrypt = require("bcryptjs");
-// GET USER INFO:
+
 const getUserController = async (req, res) => {
   try {
     const user = await userModel.findById({ _id: req.body.id });
-    // console.log(user._id)
 
     if (!user) {
       return res.status(404).send({
