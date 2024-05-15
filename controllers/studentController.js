@@ -4,6 +4,7 @@ const AuthModel = require("../models/AuthModel");
 // const LoginModel = require("../models/LoginModel");
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
+const authMiddleware = require("../middlewares/authMiddleware");
 const createStudentController = async (req, res) => {
   try {
     const {
@@ -427,7 +428,8 @@ const studentLoginInController = async (req, res) => {
         message: "Invalid password",
       });
     }
-    const JWT_SECRET ="Suryansh"
+    const JWT_SECRET ="DATA"
+    
     const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
     if(user){
       const userData ={

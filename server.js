@@ -4,6 +4,7 @@ const app = express();
 const morgan = require("morgan");
 const dotenv = require("dotenv");
 const connectDb = require("./config/db");
+const authMiddleware = require("./middlewares/authMiddleware");
 // route:
 
 // dotenv configuration
@@ -25,6 +26,7 @@ app.use("/api/v1/category", require("./routes/categoryRoutes"));
 app.use("/api/v1/student", require("./routes/studentRoute"));
 app.use("/api/v1/Auth", require("./routes/AuthRoute"));
 app.use("/api/v1/Bank", require("./routes/bankRoutes"));
+app.use("/api/v1/Jira", authMiddleware,require("./routes/jiraRoutes"));
 // route
 app.get("/", (req, res) => {
   return res.status(200).send("Hello World");

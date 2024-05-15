@@ -1,31 +1,34 @@
 const JWT = require('jsonwebtoken');
 
 module.exports = async (req, res, next) => {
+    try {
+        const token = req.headers["authorization"] && req.headers["authorization"].split(" ")[1];
+        if (!token) {
+            return res.status(401).send({
+                success: false,
+                message: 'Token is not provided in Authorization header'
+            });
+        }
 
-    try{
-        const token = req.headers["authorization"].split(" ")[1];
-        const JWT_SECRET ="DATA"
-        JWT.verify(token,JWT_SECRET,(err,decode)=>{
-            if(err){
+        const JWT_SECRET = "DATA";
+        JWT.verify(token, JWT_SECRET, (err, decode) => {
+            if (err) {
                 return res.status(401).send({
                     success: false,
-                    message:'UN-Authorirized User'
-                })
-            }
-            else{
+                    message: 'Unauthorized User'
+                });
+            } else {
                 req.body.id = decode.id;
-                next()
+                next();
             }
-        })
+        });
 
-    }
-
-    catch(error){
-        console.log(error);
+    } catch (error) {
+        console.error(error);
         res.status(500).send({
-            success:true,
-            message:"Token is not provided in Authorization header",
-            error
-        })
+            success: false,
+            message: "Internal Server Error",
+            error: error.message
+        });
     }
-}
+};
