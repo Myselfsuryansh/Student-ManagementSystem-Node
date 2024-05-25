@@ -52,6 +52,7 @@ const registerController = async (req, res) => {
 
 const loginController = async (req, res) => {
   try {
+    
     const { email, password } = req.body;
     if (!email || !password) {
       res.status(500).send({
