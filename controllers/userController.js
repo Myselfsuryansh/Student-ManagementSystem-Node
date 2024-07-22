@@ -128,7 +128,7 @@ const resetPasswordController = async (req, res) => {
     await user.save();
     res.status(200).send({
       message: true,
-      message: "Password Resettd Successfully",
+      message: "Password Resetted Successfully",
     });
   } catch (error) {
     console.log(error);

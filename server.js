@@ -20,12 +20,12 @@ app.use(morgan("dev"));
 
 app.use("/api/v1/test", require("./routes/test.route"));
 app.use("/api/v1/auth", require("./routes/authRoutes"));
-app.use("/api/v1/user", require("./routes/userRoute"));
+app.use("/api/v1/user",authMiddleware, require("./routes/userRoute"));
 app.use("/api/v1/restaurant", require("./routes/restaurantRoutes"));
 app.use("/api/v1/category", require("./routes/categoryRoutes"));
 app.use("/api/v1/student",authMiddleware, require("./routes/studentRoute"));
 app.use("/api/v1/Auth", require("./routes/AuthRoute"));
-app.use("/api/v1/Bank", require("./routes/bankRoutes"));
+app.use("/api/v1/Bank",authMiddleware, require("./routes/bankRoutes"));
 app.use("/api/v1/Jira", authMiddleware,require("./routes/jiraRoutes"));
 // route
 app.get("/", (req, res) => {

@@ -1,8 +1,6 @@
 const userModel = require("../models/userModel");
 const bcrypt = require("bcryptjs");
 const JWT = require("jsonwebtoken");
-
-// const userModel = require("../models/userModel")
 const registerController = async (req, res) => {
   try {
     const { userName, email, password, phone, address, answer } = req.body;

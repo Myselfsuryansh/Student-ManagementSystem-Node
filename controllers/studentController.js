@@ -164,7 +164,7 @@ const getAllStudentController = async (req, res) => {
 
     res.status(200).send({
       success: true,
-      message: "Data get get successful",
+      message: "Data fetched successful",
       studentCount: getAllStudent.length,
       getAllStudent: getAllStudent,
     });

@@ -6,27 +6,27 @@ const router = express.Router();
 
 // GET USER DATA
 
-router.get("/getUser", authMiddleware, getUserController);
+router.get("/getUser",  getUserController);
 
 
 // USER UPDATE
 
-router.put("/updateUser", authMiddleware, updateUserController);
+router.put("/updateUser",  updateUserController);
 
 // Passwords update
 
-router.put("/passwords", authMiddleware,updatePasswordController)
+router.put("/passwords", updatePasswordController)
 
 
 // Reset Password
 
 
-router.post('/resetPassword', authMiddleware, resetPasswordController)
+router.post('/resetPassword',  resetPasswordController)
 
 
 // Delete User
 
 
-router.delete("/deleteUser/:id", authMiddleware, deleteUserController)
+router.delete("/deleteUser/:id",  deleteUserController)
 
 module.exports = router;
