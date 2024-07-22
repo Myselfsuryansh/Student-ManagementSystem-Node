@@ -1,7 +1,6 @@
 const { response } = require("express");
 const studentModel = require("../models/studentModel");
 const AuthModel = require("../models/AuthModel");
-// const LoginModel = require("../models/LoginModel");
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
 const authMiddleware = require("../middlewares/authMiddleware");
@@ -208,7 +207,6 @@ const updateStudentController = async (req, res) => {
     const { id } = req.params;
     console.log(id);
     const {
-      department,
       empName,
       mobile,
       gender,
@@ -430,7 +428,7 @@ const studentLoginInController = async (req, res) => {
     }
     const JWT_SECRET ="DATA"
     
-    const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
+    const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, { expiresIn: '1d' });
     if(user){
       const userData ={
         email : user.email,
