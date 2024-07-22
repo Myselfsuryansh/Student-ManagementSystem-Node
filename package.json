@@ -4,9 +4,9 @@
   "description": "food app node express",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon server.js",
-    "build": "webpack"
+    
+    "server": "nodemon server.js"
+    
   },
   "author": "Suryansh",
   "license": "ISC",
