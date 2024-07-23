@@ -5,6 +5,8 @@ const studentDepartmentModel = require("../models/studentDepartmentModel");
 const jwt = require("jsonwebtoken");
 const employeeFilterModel = require("../models/employeeFilterModel");
 
+
+//Insertions for  department
 const department = [
   { name: "Accounts" },
   { name: "Manager" },
@@ -30,6 +32,8 @@ documentsData.forEach((docSize) => {
     });
 });
 
+
+//Insertions for Employees Data
 const EployeeFilter = [
   { name: "Department" },
   { name: "Employee Name" },
