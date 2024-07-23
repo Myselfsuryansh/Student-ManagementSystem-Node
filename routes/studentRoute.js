@@ -1,37 +1,48 @@
 const express = require("express");
-const authMiddleware = require("../middlewares/authMiddleware");
-const { createStudentController, getAllStudentController,clockInController, updateStudentController, deleteStuentController, getAllStudentByIdController, changePasswordController, getUserIdByEmailController, resetPasswordController, clockOutController, takeBreakController } = require("../controllers/studentController");
-const { deleteCategoryController } = require("../controllers/categoryController");
-
+const {
+  createStudentController,
+  departmentDataController,
+  employeeFilterController,
+  getAllStudentController,
+  clockInController,
+  updateStudentController,
+  deleteStuentController,
+  getAllStudentByIdController,
+  changePasswordController,
+  getUserIdByEmailController,
+  resetPasswordController,
+  clockOutController,
+  takeBreakController,
+} = require("../controllers/studentController");
 
 const router = express.Router();
 
 // Post Request:
 
-router.post('/CreatePost', createStudentController)
+router.post("/CreatePost", createStudentController);
 
-router.get('/getAllStudent', getAllStudentController )
+router.get("/getAllDepartment", departmentDataController);
 
-router.put('/updateStudent/:id', updateStudentController)
+router.get("/getAllEmployeeFilter", employeeFilterController);
 
-router.get('/getStudentBySpecificId/:id',getAllStudentByIdController )
+router.get("/getAllStudent", getAllStudentController);
 
-router.delete('/deleteStudent/:id', deleteStuentController);
+router.put("/updateStudent/:id", updateStudentController);
 
-router.post('/changePassword',changePasswordController );
+router.get("/getStudentBySpecificId/:id", getAllStudentByIdController);
 
-router.post('/resetPassword',resetPasswordController );
+router.delete("/deleteStudent/:id", deleteStuentController);
 
-router.post('/clockIn',clockInController );
+router.post("/changePassword", changePasswordController);
 
-router.post('/clockOut',clockOutController );
+router.post("/resetPassword", resetPasswordController);
 
-router.post('/takeBreak',takeBreakController );
+router.post("/clockIn", clockInController);
 
-router.get('/getUserIdByEmail', getUserIdByEmailController);
+router.post("/clockOut", clockOutController);
 
+router.post("/takeBreak", takeBreakController);
 
+router.get("/getUserIdByEmail", getUserIdByEmailController);
 
 module.exports = router;
-
-
