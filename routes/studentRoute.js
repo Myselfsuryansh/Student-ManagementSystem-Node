@@ -35,8 +35,6 @@ router.delete("/deleteStudent/:id", deleteStuentController);
 
 router.post("/changePassword", changePasswordController);
 
-router.post("/resetPassword", resetPasswordController);
-
 router.post("/clockIn", clockInController);
 
 router.post("/clockOut", clockOutController);
