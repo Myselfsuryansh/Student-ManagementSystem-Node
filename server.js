@@ -5,7 +5,12 @@ const morgan = require("morgan");
 const dotenv = require("dotenv");
 const connectDb = require("./config/db");
 const authMiddleware = require("./middlewares/authMiddleware");
+
 // route:
+
+
+//Swagger Configuration:
+
 
 // dotenv configuration
 

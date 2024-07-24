@@ -4,9 +4,7 @@
   "description": "food app node express",
   "main": "server.js",
   "scripts": {
-    
     "server": "nodemon server.js"
-    
   },
   "author": "Suryansh",
   "license": "ISC",
