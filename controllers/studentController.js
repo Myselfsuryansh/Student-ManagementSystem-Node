@@ -4,6 +4,7 @@ const AuthModel = require("../models/AuthModel");
 const studentDepartmentModel = require("../models/studentDepartmentModel");
 const jwt = require("jsonwebtoken");
 const employeeFilterModel = require("../models/employeeFilterModel");
+const userModel = require("../models/userModel");
 
 
 //Insertions for  department
@@ -474,7 +475,7 @@ const resetPasswordController = async (req, res) => {
         });
     }
 
-    const user = await AuthModel.findOne();
+    const user = await userModel.findOne();
     console.log("user", user);
 
     if (!user) {
