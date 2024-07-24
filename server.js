@@ -5,12 +5,11 @@ const morgan = require("morgan");
 const dotenv = require("dotenv");
 const connectDb = require("./config/db");
 const authMiddleware = require("./middlewares/authMiddleware");
+const swaggerjsdoc = require("swagger-jsdoc");
+const swaggerui = require("swagger-ui-express");
+const { version } = require("mongoose");
 
 // route:
-
-
-//Swagger Configuration:
-
 
 // dotenv configuration
 
@@ -25,17 +24,45 @@ app.use(morgan("dev"));
 
 app.use("/api/v1/test", require("./routes/test.route"));
 app.use("/api/v1/auth", require("./routes/authRoutes"));
-app.use("/api/v1/user",authMiddleware, require("./routes/userRoute"));
+app.use("/api/v1/user", authMiddleware, require("./routes/userRoute"));
 app.use("/api/v1/restaurant", require("./routes/restaurantRoutes"));
 app.use("/api/v1/category", require("./routes/categoryRoutes"));
-app.use("/api/v1/student",authMiddleware, require("./routes/studentRoute"));
+app.use("/api/v1/student", authMiddleware, require("./routes/studentRoute"));
 app.use("/api/v1/Auth", require("./routes/AuthRoute"));
-app.use("/api/v1/Bank",authMiddleware, require("./routes/bankRoutes"));
-app.use("/api/v1/Jira", authMiddleware,require("./routes/jiraRoutes"));
+app.use("/api/v1/Bank", authMiddleware, require("./routes/bankRoutes"));
+app.use("/api/v1/Jira", authMiddleware, require("./routes/jiraRoutes"));
 // route
 app.get("/", (req, res) => {
   return res.status(200).send("Api is working Fine Here");
 });
+
+//Swagger Configuration:
+
+const options = {
+  swaggerDefinition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Student Database",
+      version: "0.1",
+      description:
+        "This is the database for Student, Jira, Bank and so on made with express.js and document with Swagger",
+    },
+    contact:{
+      name:"Suryansh Sinha",
+    },
+
+    servers: [
+      {
+        url: "http://localhost:8080/",
+      },
+    ],
+    
+  },
+  apis: ['./userModel.js']
+  
+};
+const spacs = swaggerjsdoc(options);
+app.use("/api-docs", swaggerui.serve, swaggerui.setup(spacs));
 
 const PORT = 8080;
 

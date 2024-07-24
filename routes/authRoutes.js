@@ -1,3 +1,5 @@
+
+
 const express = require("express");
 const { registerController, loginController } = require("../controllers/authController");
 const {resetPasswordController} = require("../controllers/studentController")
