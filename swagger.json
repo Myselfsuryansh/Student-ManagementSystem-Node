@@ -1,0 +1,305 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Student Management-Suryansh",
+    "description": "This is the database for Student, Jira, Bank and so on made with express.js and document with Swagger",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:8080/",
+  "basePath": "api/v1/",
+  "tags": [
+    {
+      "name": "Users",
+      "description": "API for users in the system"
+    },
+    {
+      "name": "Student Registration",
+      "description": "API for Student Management"
+    }
+  ],
+  "schemes": ["http", "https"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "securityDefinitions": {
+    "BearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ],
+  "paths": {
+    "/Auth/loginStudent": {
+      "post": {
+        "summary": "Login user",
+        "tags": ["Users"],
+        "description": "Login user in system",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Login user",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "description": "The email address of the user"
+                },
+                "password": {
+                  "type": "string",
+                  "description": "The password of the user"
+                }
+              },
+              "required": ["email", "password"]
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "Login Success"
+          },
+          "401": {
+            "description": "Login details are not valid!!"
+          },
+          "404": {
+            "description": "Email is not registered!"
+          },
+          "500": {
+            "description": "User login failed!!"
+          }
+        }
+      }
+    },
+    "/Auth/registerStudent": {
+      "post": {
+        "summary": "Register user",
+        "tags": ["Users"],
+        "description": "Register User",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Regsiter User",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userName": {
+                  "type": "string",
+                  "description": "The user name"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "The email address of the user"
+                },
+                "password": {
+                  "type": "string",
+                  "description": "User Paswword"
+                }
+              },
+              "required": ["userName", "email", "password"]
+            }
+          }
+        ],
+        "produces": ["application/json"],
+
+        "responses": {
+          "201": {
+            "description": "Registration Success"
+          },
+          "401": {
+            "description": "Registration details are not valid!!"
+          },
+          "404": {
+            "description": "Email is already registered!"
+          },
+          "500": {
+            "description": "User Registration failed!!"
+          }
+        }
+      }
+    },
+    "/auth/resetPassword": {
+      "post": {
+        "summary": "Reset Password",
+        "tags": ["Users"],
+        "description": "Reset the user password",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Reset User Password",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "newPassword": {
+                  "type": "string",
+                  "description": "The new password of the user"
+                },
+                "confirmNewPassword": {
+                  "type": "string",
+                  "description": "The new and confirm password should match"
+                }
+              },
+              "required": ["newPassword", "confirmNewPassword"]
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "Reset Password Successfully"
+          },
+          "401": {
+            "description": "Reset details are not valid!!"
+          },
+          "404": {
+            "description": "Payload is wrong!"
+          },
+          "500": {
+            "description": "Internal Server Error!!"
+          }
+        }
+      }
+    },
+    "/student/changePassword": {
+      "post": {
+        "summary": "Change Password",
+        "tags": ["Users"],
+        "description": ["Change User Password"],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Change User Password",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "User Id"
+                },
+                "oldPassword": {
+                  "type": "string",
+                  "description": "Old Password that to be changed"
+                },
+                "newPassword": {
+                  "type": "string",
+                  "description": "New Password that to be used"
+                }
+              },
+              "required": ["id", "oldPassword", "newPassword"]
+            }
+          }
+        ],
+        "produces": ["application/json"],
+
+        "responses": {
+          "201": {
+            "description": "Password Changed Successfully"
+          },
+          "401": {
+            "description": "Password details are not valid!!"
+          },
+          "404": {
+            "description": "Password is already registered!"
+          },
+          "500": {
+            "description": "Change Password failed!!"
+          }
+        }
+      }
+    },
+    "/student/CreatePost": {
+      "post": {
+        "summary": "Student Registration",
+        "tags": ["Student Registration"],
+        "description": "Student Management Registartion",
+        "parameters": [
+          {
+            "name": "Student",
+            "in": "body",
+            "description": "Regsiter Student",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "department": {
+                  "type": "string"
+                },
+                "empName": {
+                  "type": "string"
+                },
+                "mobile": {
+                  "type": "string"
+                },
+                "gender": {
+                  "type": "string"
+                },
+                "joinDate": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "salary": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "confirmPass": {
+                  "type": "string"
+                },
+                "empStatus": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "department",
+                "empName",
+                "mobile",
+                "gender",
+                "email",
+                "salary",
+                "password",
+                "confirmPass",
+                "empStatus"
+              ]
+            }
+          }
+        ],
+        "produces":["application/json"],
+        "responses": {
+            "201": {
+              "description": "Student Data Saved Successfully"
+            },
+            "401":{
+                "description":"Unauthorized User"
+            },
+            "404": {
+              "description": "Student is already registered!"
+            },
+            "500": {
+              "description": "Internal Server Error!!"
+            }
+          },
+          "security":
+          {
+            "BearerAuth":[]
+          }
+        
+
+      }
+    }
+  }
+}

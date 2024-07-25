@@ -7,7 +7,7 @@ const connectDb = require("./config/db");
 const authMiddleware = require("./middlewares/authMiddleware");
 const swaggerjsdoc = require("swagger-jsdoc");
 const swaggerui = require("swagger-ui-express");
-const { version } = require("mongoose");
+const swaggerDocument = require('./swagger.json');
 
 // route:
 
@@ -58,12 +58,12 @@ const options = {
     ],
     
   },
-  apis: ['./userModel.js']
+  apis: ['models/userModels.js']
   
 };
 const spacs = swaggerjsdoc(options);
 app.use("/api-docs", swaggerui.serve, swaggerui.setup(spacs));
-
+app.use('/api-docs', swaggerui.serve, swaggerui.setup(swaggerDocument));
 const PORT = 8080;
 
 // 2:30

@@ -7,7 +7,6 @@ const employeeFilterModel = require("../models/employeeFilterModel");
 const userModel = require("../models/userModel");
 
 
-//Insertions for  department
 const department = [
   { name: "Accounts" },
   { name: "Manager" },
@@ -23,18 +22,16 @@ for (let i = 0; i < department.length; i += docSize) {
 }
 
 documentsData.forEach((docSize) => {
-  studentDepartmentModel
-    .insertMany(docSize)
-    .then(() => {
-      console.log(`Inserted ${docSize.length} documents`);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+  // studentDepartmentModel
+  //   .insertMany(docSize)
+  //   .then(() => {
+  //     console.log(`Inserted ${docSize.length} documents`);
+  //   })
+  //   .catch((err) => {
+  //     console.error(err);
+  //   });
 });
 
-
-//Insertions for Employees Data
 const EployeeFilter = [
   { name: "Department" },
   { name: "Employee Name" },
@@ -51,14 +48,14 @@ for (let i = 0; i < EployeeFilter.length; i += empSize) {
 }
 
 employees.forEach((empSize) => {
-  employeeFilterModel
-    .insertMany(empSize)
-    .then(() => {
-      console.log(`Inserted ${empSize.length} documents`);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+  // employeeFilterModel
+  //   .insertMany(empSize)
+  //   .then(() => {
+  //     console.log(`Inserted ${empSize.length} documents`);
+  //   })
+  //   .catch((err) => {
+  //     console.error(err);
+  //   });
 });
 
 
