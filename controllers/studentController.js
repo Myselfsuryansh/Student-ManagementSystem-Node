@@ -22,14 +22,14 @@ for (let i = 0; i < department.length; i += docSize) {
 }
 
 documentsData.forEach((docSize) => {
-  // studentDepartmentModel
-  //   .insertMany(docSize)
-  //   .then(() => {
-  //     console.log(`Inserted ${docSize.length} documents`);
-  //   })
-  //   .catch((err) => {
-  //     console.error(err);
-  //   });
+  studentDepartmentModel
+    .insertMany(docSize)
+    .then(() => {
+      console.log(`Inserted ${docSize.length} documents`);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 });
 
 const EployeeFilter = [
@@ -48,14 +48,14 @@ for (let i = 0; i < EployeeFilter.length; i += empSize) {
 }
 
 employees.forEach((empSize) => {
-  // employeeFilterModel
-  //   .insertMany(empSize)
-  //   .then(() => {
-  //     console.log(`Inserted ${empSize.length} documents`);
-  //   })
-  //   .catch((err) => {
-  //     console.error(err);
-  //   });
+  employeeFilterModel
+    .insertMany(empSize)
+    .then(() => {
+      console.log(`Inserted ${empSize.length} documents`);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 });
 
 
