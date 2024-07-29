@@ -290,9 +290,19 @@ const employeeFilterController = async (req, res) => {
 
 const getAllStudentController = async (req, res) => {
   try {
-    const getAllStudent = await studentModel.find({});
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+   
+    const startIndex = (page - 1) * limit;
+    
+    const getAllStudents = await studentModel
+    .find()
+    .skip(startIndex)
+    .limit(limit)
+    .exec();
+   
 
-    if (!getAllStudent) {
+    if (!getAllStudents) {
       return res.status(404).send({
         success: false,
         message: "Student not found",
@@ -302,13 +312,13 @@ const getAllStudentController = async (req, res) => {
     res.status(200).send({
       success: true,
       message: "Data fetched successful",
-      studentCount: getAllStudent.length,
-      getAllStudent: getAllStudent,
+      data: getAllStudents,
+      
     });
   } catch (error) {
     console.log(error);
     return res.status(404).send({
-      succes: false,
+      success: false,
       message: "Error while Getting All Student",
     });
   }

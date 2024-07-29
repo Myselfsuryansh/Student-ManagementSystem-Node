@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "Student Management-Suryansh",
+    "title": "Student-Management-Suryansh",
     "description": "This is the database for Student, Jira, Bank and so on made with express.js and document with Swagger",
     "license": {
       "name": "MIT",
