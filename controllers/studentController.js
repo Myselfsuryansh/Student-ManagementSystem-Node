@@ -300,7 +300,9 @@ const getAllStudentController = async (req, res) => {
     .skip(startIndex)
     .limit(limit)
     .exec();
-   
+    const totalRecords = await studentModel
+      .countDocuments()
+      .exec();
 
     if (!getAllStudents) {
       return res.status(404).send({
@@ -312,7 +314,9 @@ const getAllStudentController = async (req, res) => {
     res.status(200).send({
       success: true,
       message: "Data fetched successful",
-      data: getAllStudents,
+      Records:totalRecords,
+      data: getAllStudents
+      
       
     });
   } catch (error) {
