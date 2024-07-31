@@ -1,5 +1,6 @@
-const { response } = require("express");
+
 const bankModel = require("../models/bankModels");
+const ObjectId = require('mongodb').ObjectId;
 
 const addBankController = async (req, res) => {
   try {
@@ -151,9 +152,14 @@ const getBankNameController = async (req, res) => {
           message: "No State found",
         });
       }
-      const stateName = allStateDetails.map(d => d.state);
+      const states = allStateDetails.map(d => ({ id: d._id, name: d.state }));
+
   
-      res.status(200).send(stateName);
+      return res.status(500).send({
+        success: true,
+        message: "State Data Fetched Successfully",
+        data:states
+      });
     } catch (error) {
       console.log(error);
       return res.status(500).send({
@@ -165,18 +171,30 @@ const getBankNameController = async (req, res) => {
 
   const getDistrictNameController = async (req, res) => {
     try {
-      
-      const allDistrictDetails = await bankModel.find({}, 'stateID district');
+      const { stateID } = req.params; 
+      console.log(stateID)
   
-      if (!allDistrictDetails || allDistrictDetails.length === 0) {
-        return res.status(404).send({
+      if (!stateID) {
+        return res.status(400).send({
           success: false,
-          message: "No District found",
+          message: "State ID is required",
         });
       }
-      const stateName = allDistrictDetails.map(d => d.district);
+
+      const districtDetails = await bankModel.find({ state: stateID  }, 'district');
+     
+       
   
-      res.status(200).send(stateName);
+      if (!districtDetails || districtDetails.length === 0) {
+        return res.status(404).send({
+          success: false,
+          message: "No District found for the given State ID",
+        });
+      }
+  
+      const districtNames = districtDetails.map(d => d.district);
+  
+      res.status(200).send(districtNames);
     } catch (error) {
       console.log(error);
       return res.status(500).send({
@@ -185,42 +203,7 @@ const getBankNameController = async (req, res) => {
       });
     }
   };
-// const getDistrictNameController = async (req, res) => {
-//     try {
-//         const { state } = req.body; // Assuming the state name is sent in the request body
-//         console.log(state,'lkkkkkkkkk')
 
-//         if (!state) {
-//             return res.status(400).send({
-//                 success: false,
-//                 message: "State parameter is required",
-//             });
-//         }
-
-//         const allDistrictDetails = await bankModel.find({ state }, 'district');
-//         console.log(allDistrictDetails, 'ggggggg')
-
-//         if (!allDistrictDetails || allDistrictDetails.length === 0) {
-//             return res.status(404).send({
-//                 success: false,
-//                 message: "No District found for the specified state",
-//             });
-//         }
-
-//         const districtNames = allDistrictDetails.map(d => d.district);
-
-//         res.status(200).send({
-//             success: true,
-//             districts: districtNames
-//         });
-//     } catch (error) {
-//         console.log(error);
-//         return res.status(500).send({
-//             success: false,
-//             message: "Error while retrieving District",
-//         });
-//     }
-// };
 
 module.exports = {
   addBankController,
