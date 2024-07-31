@@ -7,5 +7,5 @@ router.get("/getAllBankDetails", getBankController);
 router.get("/getSpecificBankDetails",getBankNameController);
 router.post('/getDistrictandState',getDistrictandStateController);
 router.get("/getStateName",getStateNameController);
-router.get("/getDistrictName",getDistrictNameController);
+router.get("/getDistrictName/:stateID",getDistrictNameController);
 module.exports = router;
