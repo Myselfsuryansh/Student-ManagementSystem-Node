@@ -3,6 +3,7 @@ const {
   addBankController,
   getBankController,
   getAllContriesName,
+  getCitiesNameOfStates,
   getAllStateNameOfCountry,
   getBankNameController,
   getDistrictandStateController,
@@ -19,5 +20,5 @@ router.get("/getStateName", getStateNameController);
 router.get("/getDistrictName/:stateID", getDistrictNameController);
 router.get("/getAllCountries", getAllContriesName);
 router.get("/getAllStatesOfCountries/:isoCode", getAllStateNameOfCountry);
-// router.get("/getAllCitiesOfStates/:id", getCitiesNameOfStates)
+router.get("/getAllCitiesOfStates/:state_code", getCitiesNameOfStates)
 module.exports = router;
