@@ -1,18 +1,25 @@
-
 const bankModel = require("../models/bankModels");
-const { Country, State, City } = require('country-state-city');
-const cities = require('../cities.json');
-const path = require('path');
-const fs = require('fs')
+const { Country, State } = require("country-state-city");
+const cities = require("../cities.json");
 const addBankController = async (req, res) => {
   try {
-    const { bankName, bankBranch, accountNumber, AccountType, IFSCCode,district,state } =
-      req.body;
+    const {
+      bankName,
+      bankBranch,
+      accountNumber,
+      AccountType,
+      IFSCCode,
+      district,
+      state,
+    } = req.body;
     if (
       !bankName ||
       !bankBranch ||
       !accountNumber ||
-    !IFSCCode || !AccountType || !state || !district
+      !IFSCCode ||
+      !AccountType ||
+      !state ||
+      !district
     ) {
       return res.status(404).send({
         success: false,
@@ -51,220 +58,84 @@ const addBankController = async (req, res) => {
   }
 };
 
+const getBankController = async (req, res) => {
+  try {
+    const getAllBankDetails = await bankModel.find({});
 
-
-const getBankController = async(req, res)=>{
-    try {
-        const getAllBankDetails = await bankModel.find({});
-    
-        if (!getAllBankDetails) {
-          return res.status(404).send({
-            success: false,
-            message: "Bank  not found",
-          });
-        }
-    
-        res.status(200).send({
-          success: true,
-          message: "Data get successful",
-          BankDetails: getAllBankDetails,
-        });
-      } catch (error) {
-        console.log(error);
-        return res.status(404).send({
-          succes: false,
-          message: "Error while Getting All Bank Details",
-        });
-      }
-}
-
-
-const getDistrictandStateController = async (req, res) => {
-    try {
-        let state = req.query.state || req.body.state;
-        let district = req.query.district || req.body.district;
-        console.log(state, district)
-
-        // Find all bank details
-        let getAllBankDetails = await bankModel.find({});
-
-        // Filter districts based on the state and district
-        let filteredDistricts = getAllBankDetails.filter(w => {
-            return ( w.state) && ( w.district );
-           
-        });
-
-        if (!filteredDistricts || filteredDistricts.length === 0) {
-            return res.status(404).send({
-                success: false,
-                message: "Districts not found for the specified state and district",
-            });
-        }
-
-        // Extract unique districts
-        let districts = [...new Set(filteredDistricts.map(bank => bank.district))];
-
-        res.status(200).send({
-            success: true,
-            message: "Districts retrieved successfully",
-            districts: districts,
-        });
-    } catch (error) {
-        console.log(error);
-        return res.status(500).send({
-            success: false,
-            message: "Error while retrieving districts",
-        });
+    if (!getAllBankDetails) {
+      return res.status(404).send({
+        success: false,
+        message: "Bank  not found",
+      });
     }
+
+    res.status(200).send({
+      success: true,
+      message: "Data get successful",
+      BankDetails: getAllBankDetails,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(404).send({
+      succes: false,
+      message: "Error while Getting All Bank Details",
+    });
+  }
 };
 
-
-
-const getBankNameController = async (req, res) => {
-    try {
-      
-      const allBankDetails = await bankModel.find({}, 'bankName');
-  
-      if (!allBankDetails || allBankDetails.length === 0) {
-        return res.status(404).send({
-          success: false,
-          message: "No bank details found",
-        });
-      }
-      const bankNames = allBankDetails.map(bank => bank.bankName);
-  
-      res.status(200).send(bankNames);
-    } catch (error) {
-      console.log(error);
-      return res.status(500).send({
-        success: false,
-        message: "Error while retrieving bank names",
-      });
-    }
-  };
-
-  const getStateNameController = async (req, res) => {
-    try {
-      
-      const allStateDetails = await bankModel.find({}, 'state');
-  
-      if (!allStateDetails || allStateDetails.length === 0) {
-        return res.status(404).send({
-          success: false,
-          message: "No State found",
-        });
-      }
-      const states = allStateDetails.map(d => ({ id: d._id, name: d.state }));
-
-  
-      return res.status(200).send({
-        success: true,
-        message: "State Data Fetched Successfully",
-        data:states
-      });
-    } catch (error) {
-      console.log(error);
-      return res.status(500).send({
-        success: false,
-        message: "Error while retrieving state",
-      });
-    }
-  };
-
-  const getDistrictNameController = async (req, res) => {
-    try {
-      const { stateID } = req.params; 
-      console.log(stateID)
-  
-      if (!stateID) {
-        return res.status(400).send({
-          success: false,
-          message: "State ID is required",
-        });
-      }
-
-      const districtDetails = await bankModel.find({ state: stateID  }, 'district');
-     
-       
-  
-      if (!districtDetails || districtDetails.length === 0) {
-        return res.status(404).send({
-          success: false,
-          message: "No District found for the given State ID",
-        });
-      }
-  
-      const districtNames = districtDetails.map(d => d.district);
-  
-      res.status(200).send(districtNames);
-    } catch (error) {
-      console.log(error);
-      return res.status(500).send({
-        success: false,
-        message: "Error while retrieving District",
-      });
-    }
-  };
-
-const getAllContriesName = (req, res)=>{
+const getAllContriesName = (req, res) => {
   try {
-    const countries = Country.getAllCountries();
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const offset = parseInt(req.query.offset, 10) || 0;
+    const allcountries = Country.getAllCountries();
+    const paginatedStates = allcountries.slice(offset, offset + limit);
     return res.status(200).send({
       success: true,
       message: "Countries Data Fetched Successfully",
-      data:countries
+      data: paginatedStates,
     });
-  } catch (error) {
-    
-  }
-}
+  } catch (error) {}
+};
 
-const getAllStateNameOfCountry = (req,res)=>{
+const getAllStateNameOfCountry = (req, res) => {
   try {
-    const countryCode = req.params.isoCode;
+    const countryCode = req.query.isoCode;
     const states = State.getStatesOfCountry(countryCode);
     return res.status(200).send({
       success: true,
       message: "states Data Fetched Successfully",
-      data:states
+      data: states,
     });
-  } catch (error) {
-    
-  }
-}
+  } catch (error) {}
+};
 
-const getCitiesNameOfStates =(req,res)=>{
+const getCitiesNameOfStates = (req, res) => {
   try {
-    const stateCode = req.params.state_code;
-    console.log('stateCode is the paramas',stateCode)
+    const stateCode = req.query.state_code;
+    console.log("stateCode is the paramas", stateCode);
     const citiesFilePath = cities;
-    const city = citiesFilePath.filter(city => city.state_code === stateCode )
+    const city = citiesFilePath.filter((city) => city.state_code === stateCode);
     if (cities.length === 0) {
       console.log(`No cities found for state code: ${stateCode}`);
     }
     return res.status(200).send({
       success: true,
       message: "Cities Data Fetched Successfully",
-      data: city
+      data: city,
     });
   } catch (error) {
     return res.status(500).send({
       success: false,
       message: "An error occurred while fetching cities data",
-      error: error.message
+      error: error.message,
     });
   }
-}
-
+};
 
 module.exports = {
   addBankController,
   getBankController,
-  getBankNameController,
-  getDistrictandStateController,
-  getStateNameController,
-  getDistrictNameController,
   getAllContriesName,
   getAllStateNameOfCountry,
-  getCitiesNameOfStates
+  getCitiesNameOfStates,
 };
