@@ -1,6 +1,6 @@
 
 const bankModel = require("../models/bankModels");
-
+const { Country, State, City } = require('country-state-city');
 const addBankController = async (req, res) => {
   try {
     const { bankName, bankBranch, accountNumber, AccountType, IFSCCode,district,state } =
@@ -203,6 +203,44 @@ const getBankNameController = async (req, res) => {
     }
   };
 
+const getAllContriesName = (req, res)=>{
+  try {
+    const countries = Country.getAllCountries();
+    return res.status(200).send({
+      success: true,
+      message: "Countries Data Fetched Successfully",
+      data:countries
+    });
+  } catch (error) {
+    
+  }
+}
+
+const getAllStateNameOfCountry = (req,res)=>{
+  try {
+    const countryCode = req.params.isoCode;
+    const states = State.getStatesOfCountry(countryCode);
+    return res.status(200).send({
+      success: true,
+      message: "states Data Fetched Successfully",
+      data:states
+    });
+  } catch (error) {
+    
+  }
+}
+
+const getCitiesNameOfStates =(req,res)=>{
+  try {
+    const stateCode = req.params.id;
+    const city = City.getCitiesOfState(stateCode)
+    console.log(city)
+    
+  } catch (error) {
+    
+  }
+}
+
 
 module.exports = {
   addBankController,
@@ -210,5 +248,8 @@ module.exports = {
   getBankNameController,
   getDistrictandStateController,
   getStateNameController,
-  getDistrictNameController
+  getDistrictNameController,
+  getAllContriesName,
+  getAllStateNameOfCountry,
+  getCitiesNameOfStates
 };
