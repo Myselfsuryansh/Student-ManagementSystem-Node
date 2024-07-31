@@ -1,6 +1,9 @@
 
 const bankModel = require("../models/bankModels");
 const { Country, State, City } = require('country-state-city');
+const cities = require('../cities.json');
+const path = require('path');
+const fs = require('fs')
 const addBankController = async (req, res) => {
   try {
     const { bankName, bankBranch, accountNumber, AccountType, IFSCCode,district,state } =
@@ -232,12 +235,24 @@ const getAllStateNameOfCountry = (req,res)=>{
 
 const getCitiesNameOfStates =(req,res)=>{
   try {
-    const stateCode = req.params.id;
-    const city = City.getCitiesOfState(stateCode)
-    console.log(city)
-    
+    const stateCode = req.params.state_code;
+    console.log('stateCode is the paramas',stateCode)
+    const citiesFilePath = cities;
+    const city = citiesFilePath.filter(city => city.state_code === stateCode )
+    if (cities.length === 0) {
+      console.log(`No cities found for state code: ${stateCode}`);
+    }
+    return res.status(200).send({
+      success: true,
+      message: "Cities Data Fetched Successfully",
+      data: city
+    });
   } catch (error) {
-    
+    return res.status(500).send({
+      success: false,
+      message: "An error occurred while fetching cities data",
+      error: error.message
+    });
   }
 }
 
