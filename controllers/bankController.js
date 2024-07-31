@@ -1,6 +1,5 @@
 
 const bankModel = require("../models/bankModels");
-const ObjectId = require('mongodb').ObjectId;
 
 const addBankController = async (req, res) => {
   try {
@@ -155,7 +154,7 @@ const getBankNameController = async (req, res) => {
       const states = allStateDetails.map(d => ({ id: d._id, name: d.state }));
 
   
-      return res.status(500).send({
+      return res.status(200).send({
         success: true,
         message: "State Data Fetched Successfully",
         data:states
