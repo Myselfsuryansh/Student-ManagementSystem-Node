@@ -85,14 +85,11 @@ const getBankController = async (req, res) => {
 
 const getAllContriesName = (req, res) => {
   try {
-    const limit = parseInt(req.query.limit, 10) || 10;
-    const offset = parseInt(req.query.offset, 10) || 0;
-    const allcountries = Country.getAllCountries();
-    const paginatedStates = allcountries.slice(offset, offset + limit);
+    const countries = Country.getAllCountries();
     return res.status(200).send({
       success: true,
       message: "Countries Data Fetched Successfully",
-      data: paginatedStates,
+      data: countries,
     });
   } catch (error) {}
 };
