@@ -1,6 +1,7 @@
 const bankModel = require("../models/bankModels");
 const { Country, State } = require("country-state-city");
 const cities = require("../cities.json");
+const banks = require('../banks.json')
 const addBankController = async (req, res) => {
   try {
     const {
@@ -58,10 +59,9 @@ const addBankController = async (req, res) => {
   }
 };
 
-const getBankController = async (req, res) => {
+const getBankController = (req, res) => {
   try {
-    const getAllBankDetails = await bankModel.find({});
-
+    const getAllBankDetails = banks;
     if (!getAllBankDetails) {
       return res.status(404).send({
         success: false,
