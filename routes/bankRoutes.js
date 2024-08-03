@@ -1,6 +1,6 @@
 const express = require("express");
 const {
-  addBankController,
+  addBankController,getBankController,
   getAllContriesName,
   getCitiesNameOfStates,
   getAllStateNameOfCountry,
@@ -8,6 +8,7 @@ const {
 const router = express.Router();
 
 router.post("/registerBankDetails", addBankController);
+router.get('/getBankDetails',getBankController)
 router.get("/getAllCountries", getAllContriesName);
 router.get("/getAllStatesOfCountries", getAllStateNameOfCountry);
 router.get("/getAllCitiesOfStates", getCitiesNameOfStates)
