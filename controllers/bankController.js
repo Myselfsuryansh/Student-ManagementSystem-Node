@@ -61,29 +61,29 @@ const addBankController = async (req, res) => {
   }
 };
 
-// const getBankController = (req, res) => {
-//   try {
-//     const getAllBankDetails = banks;
-//     if (!getAllBankDetails) {
-//       return res.status(404).send({
-//         success: false,
-//         message: "Bank  not found",
-//       });
-//     }
+const getBankController = async (req, res) => {
+  try {
+    const getAllBankDetails = await bankModel.find({})
+    if (!getAllBankDetails) {
+      return res.status(404).send({
+        success: false,
+        message: "Bank  not found",
+      });
+    }
 
-//     res.status(200).send({
-//       success: true,
-//       message: "Data get successful",
-//       BankDetails: getAllBankDetails,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(404).send({
-//       succes: false,
-//       message: "Error while Getting All Bank Details",
-//     });
-//   }
-// };
+    res.status(200).send({
+      success: true,
+      message: "Data get successful",
+      BankDetails: getAllBankDetails,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(404).send({
+      succes: false,
+      message: "Error while Getting All Bank Details",
+    });
+  }
+};
 
 const getAllContriesName = (req, res) => {
   try {
@@ -133,6 +133,7 @@ const getCitiesNameOfStates = (req, res) => {
 
 module.exports = {
   addBankController,
+  getBankController,
   getAllContriesName,
   getAllStateNameOfCountry,
   getCitiesNameOfStates,
