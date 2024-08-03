@@ -5,6 +5,9 @@ const bankSchema = new mongoose.Schema(
     bankName: {
       type: String,
     },
+    country: {
+      type: String,
+    },
     state:{
         type: String,
     },
