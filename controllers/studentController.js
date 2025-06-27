@@ -21,16 +21,16 @@ for (let i = 0; i < department.length; i += docSize) {
   documentsData.push(department.slice(i, i + docSize));
 }
 
-documentsData.forEach((docSize) => {
-  studentDepartmentModel
-    .insertMany(docSize)
-    .then(() => {
-      console.log(`Inserted ${docSize.length} documents`);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-});
+// documentsData.forEach((docSize) => {
+//   studentDepartmentModel
+//     .insertMany(docSize)
+//     .then(() => {
+//       console.log(`Inserted ${docSize.length} documents`);
+//     })
+//     .catch((err) => {
+//       console.error(err);
+//     });
+// });
 
 const EployeeFilter = [
   { name: "Department" },
@@ -47,16 +47,16 @@ for (let i = 0; i < EployeeFilter.length; i += empSize) {
   employees.push(EployeeFilter.slice(i, i + empSize));
 }
 
-employees.forEach((empSize) => {
-  employeeFilterModel
-    .insertMany(empSize)
-    .then(() => {
-      console.log(`Inserted ${empSize.length} documents`);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-});
+// employees.forEach((empSize) => {
+//   employeeFilterModel
+//     .insertMany(empSize)
+//     .then(() => {
+//       console.log(`Inserted ${empSize.length} documents`);
+//     })
+//     .catch((err) => {
+//       console.error(err);
+//     });
+// });
 
 
 
@@ -514,6 +514,7 @@ const resetPasswordController = async (req, res) => {
 };
 
 const studentSignUpController = async (req, res) => {
+  debugger
   try {
     const { userName, email, password } = req.body;
     if (!userName || !email || !password) {
@@ -546,7 +547,7 @@ const studentSignUpController = async (req, res) => {
     console.log(error);
     res.status(400).send({
       success: false,
-      message: "Error While Signing Up",
+      message: "Error While Signing ",
       error,
     });
   }

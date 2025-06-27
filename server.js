@@ -18,7 +18,11 @@ dotenv.config();
 connectDb();
 
 // middleware configuration
-app.use(cors());
+app.use(cors({
+  origin: '*', // or your Angular origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 app.use(morgan("dev"));
 
@@ -31,6 +35,7 @@ app.use("/api/v1/student", authMiddleware, require("./routes/studentRoute"));
 app.use("/api/v1/Auth", require("./routes/AuthRoute"));
 app.use("/api/v1/Bank", authMiddleware, require("./routes/bankRoutes"));
 app.use("/api/v1/Jira", authMiddleware, require("./routes/jiraRoutes"));
+app.use("/api/v1/Report", require("./routes/dashboardRoutes"));
 // route
 app.get("/", (req, res) => {
   return res.status(200).send("Api is working Fine Here");

@@ -382,7 +382,7 @@ const RegisterUserController = async (req, res) => {
     console.log(error);
     res.status(400).send({
       success: false,
-      message: "Error While Signing Up",
+      message: "Error While Signing",
       error,
     });
   }
