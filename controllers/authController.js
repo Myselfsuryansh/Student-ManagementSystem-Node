@@ -49,7 +49,6 @@ const registerController = async (req, res) => {
 // LOGIN
 
 const loginController = async (req, res) => {
-  debugger
   try {
     const { email, password } = req.body;
     if (!email || !password) {

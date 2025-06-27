@@ -514,7 +514,6 @@ const resetPasswordController = async (req, res) => {
 };
 
 const studentSignUpController = async (req, res) => {
-  debugger
   try {
     const { userName, email, password } = req.body;
     if (!userName || !email || !password) {
