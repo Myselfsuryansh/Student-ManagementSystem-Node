@@ -1,4 +1,3 @@
-const { response } = require("express");
 const reportModel =require('../models/reportModel');
 
 const addReportController = async (req, res) => {
