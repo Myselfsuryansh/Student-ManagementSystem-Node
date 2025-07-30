@@ -36,6 +36,8 @@ app.use("/api/v1/Auth", require("./routes/AuthRoute"));
 app.use("/api/v1/Bank", authMiddleware, require("./routes/bankRoutes"));
 app.use("/api/v1/Jira", authMiddleware, require("./routes/jiraRoutes"));
 app.use("/api/v1/Report", require("./routes/dashboardRoutes"));
+app.use("/api/v1/Complaince", require("./routes/complainceRoutes"));
+app.use("/api/v1/s3", require("./routes/s3Routes"));
 // route
 app.get("/", (req, res) => {
   return res.status(200).send("Api is working Fine Here");
