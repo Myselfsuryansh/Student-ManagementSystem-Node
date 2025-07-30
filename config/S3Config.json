@@ -1,0 +1,114 @@
+{
+  "BucketConfiguration": {
+    "BucketName": "example-bucket-name",
+    "Region": "us-west-2",
+    "ACL": "private",
+    "VersioningConfiguration": {
+      "Status": "Enabled"
+    },
+    "LoggingConfiguration": {
+      "DestinationBucketName": "example-log-bucket",
+      "LogFilePrefix": "logs/"
+    },
+    "ServerSideEncryptionConfiguration": {
+      "Rules": [
+        {
+          "ApplyServerSideEncryptionByDefault": {
+            "SSEAlgorithm": "AES256"
+          }
+        }
+      ]
+    },
+    "LifecycleConfiguration": {
+      "Rules": [
+        {
+          "ID": "ExpireOldObjects",
+          "Status": "Enabled",
+          "Prefix": "",
+          "Expiration": {
+            "Days": 365
+          }
+        },
+        {
+          "ID": "TransitionToIA",
+          "Status": "Enabled",
+          "Prefix": "",
+          "Transitions": [
+            {
+              "Days": 30,
+              "StorageClass": "STANDARD_IA"
+            }
+          ]
+        }
+      ]
+    },
+    "CORSConfiguration": {
+      "CORSRules": [
+        {
+          "AllowedOrigins": ["*"],
+          "AllowedMethods": ["GET", "PUT", "POST", "DELETE"],
+          "AllowedHeaders": ["*"],
+          "MaxAgeSeconds": 3000
+        }
+      ]
+    },
+    "Policy": {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Sid": "AllowPublicRead",
+          "Effect": "Allow",
+          "Principal": "*",
+          "Action": "s3:GetObject",
+          "Resource": "arn:aws:s3:::example-bucket-name/*"
+        }
+      ]
+    },
+    "Tagging": {
+      "TagSet": [
+        {
+          "Key": "Project",
+          "Value": "AI-Infrastructure"
+        },
+        {
+          "Key": "Environment",
+          "Value": "Production"
+        }
+      ]
+    },
+    "NotificationConfiguration": {
+      "LambdaFunctionConfigurations": [
+        {
+          "Id": "ImageUploadTrigger",
+          "LambdaFunctionArn": "arn:aws:lambda:us-west-2:123456789012:function:ProcessImage",
+          "Events": ["s3:ObjectCreated:*"]
+        }
+      ]
+    },
+    "IntelligentTieringConfiguration": {
+      "Id": "IntelligentTiering",
+      "Status": "Enabled",
+      "Tierings": [
+        {
+          "Days": 90,
+          "AccessTier": "ARCHIVE_ACCESS"
+        }
+      ]
+    },
+    "ReplicationConfiguration": {
+      "Role": "arn:aws:iam::123456789012:role/s3-replication-role",
+      "Rules": [
+        {
+          "Status": "Enabled",
+          "Priority": 1,
+          "Filter": {
+            "Prefix": ""
+          },
+          "Destination": {
+            "Bucket": "arn:aws:s3:::example-replica-bucket"
+          }
+        }
+      ]
+    }
+  }
+}
